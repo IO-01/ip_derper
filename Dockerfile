@@ -1,6 +1,6 @@
 FROM golang:latest AS builder
 
-LABEL org.opencontainers.image.source https://github.com/yangchuansheng/ip_derper
+LABEL org.opencontainers.image.source https://github.com/IO-01/ip_derper
 
 WORKDIR /app
 
@@ -12,7 +12,7 @@ RUN cd /app/tailscale/cmd/derper && \
     cd /app && \
     rm -rf /app/tailscale
 
-FROM ubuntu:20.04
+FROM alpine:latest
 WORKDIR /app
 
 # ========= CONFIG =========
@@ -26,8 +26,8 @@ ENV DERP_VERIFY_CLIENTS false
 # ==========================
 
 # apt
-RUN apt-get update && \
-    apt-get install -y openssl curl
+RUN apk update && \
+    apk add --no-cache openssl curl
 
 COPY build_cert.sh /app/
 COPY --from=builder /app/derper /app/derper

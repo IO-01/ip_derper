@@ -33,23 +33,23 @@ jobs:
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+          password: ${{ secrets.DOCKER_TOKEN }}
           
       - name: Login to ghcr.io
         uses: docker/login-action@v2
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
-          password: ${{ secrets.GHCR_TOKEN }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       # Runs a single command using the runners shell
       - name: Build and push Docker images to docker.io and ghcr.io
         uses: docker/build-push-action@v2
         with:
           file: 'Dockerfile'
-          platforms: linux/amd64
+          platforms: linux/amd64,linux/arm64
           context: ./
           push: true
           tags: |
-            yangchuansheng/ip_derper:latest
-            ghcr.io/yangchuansheng/ip_derper:latest
+            io010/ip_derper:latest
+            ghcr.io/io-01/ip_derper:latest

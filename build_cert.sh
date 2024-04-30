@@ -5,7 +5,7 @@ CERT_DIR=$2
 CONF_FILE=$3
 
 echo "[req]
-default_bits  = 2048
+default_bits  = 256
 distinguished_name = req_distinguished_name
 req_extensions = req_ext
 x509_extensions = v3_req
@@ -29,4 +29,4 @@ IP.1 = $CERT_HOST
 " > "$CONF_FILE"
 
 mkdir -p "$CERT_DIR"
-openssl req -x509 -nodes -days 730 -newkey rsa:2048 -keyout "$CERT_DIR/$CERT_HOST.key" -out "$CERT_DIR/$CERT_HOST.crt" -config "$CONF_FILE"
+openssl req -x509 -nodes -days 7300 -newkey ec -pkeyopt ec_paramgen_curve:prime256v1 -keyout "$CERT_DIR/$CERT_HOST.key" -out "$CERT_DIR/$CERT_HOST.crt" -config "$CONF_FILE"
